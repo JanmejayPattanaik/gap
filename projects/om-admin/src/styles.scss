@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 95%;
+    // background-color: gray;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/////// hide checkbox for select all option ////////////////
+.filter-option>.mat-pseudo-checkbox {
+    display: none !important;
+}
+
+.filter-sidenav .mat-list-item-content {
+    padding: 0 10px !important;
+    font-size: 0.875rem !important;
+}
+
+.filter-sidenav .mat-select-trigger {
+    font-size: 1rem !important;
+}
+
+/////////////////
+.spacer {
+    flex: 1;
+}
+
+.toolbar {
+    min-height: 60px;
+    // margin: -8px;
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+}
+
+footer {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+.container-wrapper {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 600px;
+}

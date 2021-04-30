@@ -1,0 +1,13 @@
+.full-width {
+    flex: 1;
+    margin: 0 20px;
+    width: 100%;
+  }
+  .footer {
+      display: flex;
+      flex-direction: row-reverse;
+      column-gap: 20px;     
+  }
+  .status-container {
+      padding-top: 9px;
+  }

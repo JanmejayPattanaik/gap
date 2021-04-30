@@ -1,0 +1,23 @@
+<!-- <div class="graph-image graph-7">
+  <img src="./../../assets/receipt-background.png" alt="Graph Description" />
+</div> -->
+<div class="content">
+  <h2>{{ data.vendorName }}</h2>
+  <table class="sku-table">
+    <tr class="headers">
+      <th>Packs</th>
+      <th>Count</th>
+    </tr>
+  </table>
+  <div class="product" *ngFor="let v of data.vendorSKUs">
+    <h4>{{ v.productName }}</h4>
+    <table class="sku-table">
+      <tr *ngFor="let o of v.skus | keyvalue">
+        <!-- <td>{{ o.value.unit }}</td> -->
+        <td>{{ o.key }}</td>
+        <td>{{ o.value.count }}</td>
+      </tr>
+    </table>
+  </div>
+  <h2 class="no-items" *ngIf="data.vendorSKUs.length === 0">No Items</h2>
+</div>

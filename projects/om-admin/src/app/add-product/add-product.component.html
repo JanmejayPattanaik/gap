@@ -1,0 +1,313 @@
+<div class="container">
+    <div class="container-wrapper">
+        <h2>Add Product</h2>
+        <form [formGroup]="productForm" (ngSubmit)="submitForm()">
+            <mat-card-content>
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" matInput>
+                        <mat-error *ngIf="productForm.controls['name'].invalid">Please enter a valid name</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="description"></textarea>
+                        <mat-error *ngIf="productForm.controls['description'].invalid">Please enter a valid description</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+                    <span> Upload Image </span><br />
+                    <div class="">
+                        <input id="image" type="file" (change)="uploadImage($event)" accept=".png,.jpg" />
+                        <progress class="progress-bar" max="100" [value]="(uploadProgress | async)"></progress>
+                        <div *ngIf="downloadURL">
+                            <img class="image-cls" #image [src]="downloadURL" alt="Product Image">
+                        </div>
+                    </div>
+                </div>
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Price</mat-label>
+                        <input formControlName="price" matInput>
+                        <mat-error *ngIf="productForm.controls['price'].invalid">Please enter a valid price</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Quantity</mat-label>
+                        <input formControlName="quantity" matInput>
+                        <mat-error *ngIf="productForm.controls['quantity'].invalid">Please enter a valid quantity</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Select</mat-label>
+                        <mat-select formControlName="category" [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
+                            <mat-option>Select</mat-option>
+                            <mat-option *ngFor="let category of categories | keyvalue" [value]="category.value.id">
+                                {{ category.value.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Sub Category*</mat-label>
+                        <mat-select formControlName="subCategory">
+                            <mat-option>Select</mat-option>
+                            <mat-option *ngFor="let category of subCategories" [value]="category">
+                                {{ category }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Vendor Name*</mat-label>
+                        <mat-select formControlName="vendor">
+                            <mat-option>Select</mat-option>
+                            <mat-option value="Amar Yerravellie">Amar Yerravellie</mat-option>
+                            <mat-option value="Ancient Practices">Ancient Practices</mat-option>
+                            <mat-option value="Anika Organics">Anika Organics</mat-option>
+                            <mat-option value="Arivu Organics">Arivu Organics</mat-option>
+                            <mat-option value="Farmers Pick (NK)">Farmers Pick (NK)</mat-option>
+                            <mat-option value="Flower Market">Flower Market</mat-option>
+                            <mat-option value="MBR Papaya">MBR Papaya</mat-option>
+                            <mat-option value="Raghava Reddy">Raghava Reddy</mat-option>
+                            <mat-option value="RMR Hatnoor">RMR Hatnoor</mat-option>
+                            <mat-option value="Showri Sendriya">Showri Sendriya</mat-option>
+                            <mat-option value="Venkanna Sangareddy">Venkanna Sangareddy</mat-option>
+                            <mat-option value="YR Sama (Siddipet)">YR Sama (Siddipet)</mat-option>
+                            <mat-option value="SPNF Basuthkar">SPNF Basuthkar</mat-option>
+                            <mat-option value="Greenz">Greenz</mat-option>
+                            <mat-option value="Chandrasekharam">Chandrasekharam</mat-option>
+                            <mat-option value="Sristi Naturals">Sristi Naturals</mat-option>
+                            <mat-option value="Naveen Farm">Naveen Farm</mat-option>
+                            <mat-option value="Joe's farm">Joe's farm</mat-option>
+                            <mat-option value="Ram Reddy">Ram Reddy</mat-option>
+                            <mat-option value="Honesto Eggs">Honesto Eggs</mat-option>
+                            <mat-option value="Sudhakar Palakurthy">Sudhakar Palakurthy</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <div fxLayoutAlign="center">
+                    <mat-radio-group formControlName="packed" (change)="packedChanged($event)">
+                        <label for="packed" style="margin-right:3%;">Pre-Packed? </label>
+                        <mat-radio-button value="true"> Yes </mat-radio-button>
+                        <mat-radio-button value="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                </div> -->
+
+                <div fxLayoutAlign="center">
+                    <mat-form-field style="width:100%" appearance="outline">
+                        <mat-label>Unit Size</mat-label>
+                        <input formControlName="unitSize" matInput>
+                        <mat-error *ngIf="productForm.controls['unitSize'].invalid">Please enter a valid unit</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center">
+
+                    <mat-radio-group formControlName="metric">
+                        <label for="metric" style="margin-right:3%;"> Metric* </label>
+                        <mat-radio-button value="kg"> Kg </mat-radio-button>
+                        <mat-radio-button value="gms"> gm </mat-radio-button>
+                        <mat-radio-button value="ltr"> Litre </mat-radio-button>
+                        <mat-radio-button value="ml"> ml </mat-radio-button>
+                        <mat-radio-button value="pieces"> Pieces </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <!-- <div fxLayoutAlign="center">
+                    <mat-radio-group formControlName="subscribe">
+                        <label for="subscribe" style="margin-right:3%;"> Can Subscribe? </label>
+                        <mat-radio-button value="true"> Yes </mat-radio-button>
+                        <mat-radio-button value="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                </div> -->
+
+                <div fxLayoutAlign="center">
+                    <mat-radio-group formControlName="active">
+                        <label for="active" style="margin-right:3%;"> Is Active? </label>
+                        <mat-radio-button value="true"> Yes </mat-radio-button>
+                        <mat-radio-button value="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <!-- <div>
+                        <select id="subCategory" formControlName="subCategory" [attr.disabled]="subCategories.length == 0 ? true : null">
+            <option
+              *ngFor="let category of subCategories"
+              [value]="category"
+            >
+              {{ category}}
+            </option>
+          </select>
+                    </div> -->
+
+                <!-- <div>
+                    <label for="name"> Name* </label>
+                    <input id="name" type="text" formControlName="name" />
+                </div>
+
+                <div>
+                    <label for="description"> Description </label>
+                    <textarea id="description" rows="5" cols="30" formControlName="description"></textarea>
+                </div>
+                <div>
+                    <label for="image"> Image </label>
+                    <div class="container">
+                        <input id="image" type="file" (change)="uploadImage($event)" accept=".png,.jpg" />
+                        <progress class="progress-bar" max="100" [value]="(uploadProgress | async)"></progress>
+                        <div *ngIf="downloadURL">
+                            <img class="image-cls" #image [src]="downloadURL" alt="Product Image">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="price"> Price* </label>
+                    <input id="price" type="number" formControlName="price" />
+                </div>
+
+                <div>
+                    <label for="quantity"> Quantity </label>
+                    <input id="quantity" type="number" formControlName="quantity" />
+                </div>
+
+                <div>
+                    <label for="category"> Category* </label>
+                    <select id="category" formControlName="category" (change)="onCategoryChange($event.target.value)">
+        <option
+          *ngFor="let category of categories | keyvalue"
+          [value]="category.value.id"
+        >
+          {{ category.value.name }}
+        </option>
+      </select>
+                </div>
+                <div>
+                    <label for="subCategory"> Sub Category* </label>
+                    <select id="subCategory" formControlName="subCategory" [attr.disabled]="subCategories.length == 0 ? true : null">
+        <option
+          *ngFor="let category of subCategories"
+          [value]="category"
+        >
+          {{ category}}
+        </option>
+      </select>
+                </div> 
+
+                <div>
+                    <label for="vendor"> Vendor Name* </label>
+                    <select id="vendor" formControlName="vendor">
+        <option value="Amar Yerravellie">Amar Yerravellie</option>
+        <option value="Ancient Practices">Ancient Practices</option>
+        <option value="Anika Organics">Anika Organics</option>
+        <option value="Arivu Organics">Arivu Organics</option>
+        <option value="Farmers Pick (NK)">Farmers Pick (NK)</option>
+        <option value="Flower Market">Flower Market</option>
+        <option value="MBR Papaya">MBR Papaya</option>
+        <option value="Raghava Reddy">Raghava Reddy</option>
+        <option value="RMR Hatnoor">RMR Hatnoor</option>
+        <option value="Showri Sendriya">Showri Sendriya</option>
+        <option value="Venkanna Sangareddy">Venkanna Sangareddy</option>
+        <option value="YR Sama (Siddipet)">YR Sama (Siddipet)</option>
+        <option value="SPNF Basuthkar">SPNF Basuthkar</option>
+        <option value="Greenz">Greenz</option>
+        <option value="Chandrasekharam">Chandrasekharam</option>
+        <option value="Sristi Naturals">Sristi Naturals</option>
+        <option value="Naveen Farm">Naveen Farm</option>
+        <option value="Joe's farm">Joe's farm</option>
+        <option value="Ram Reddy">Ram Reddy</option>
+        <option value="Honesto Eggs">Honesto Eggs</option>
+        <option value="Sudhakar Palakurthy">Sudhakar Palakurthy</option>
+      </select>
+                </div>
+
+                <div>
+                    <label for="packed"> Pre-Packed? </label>
+                    <mat-radio-group formControlName="packed" (change)="packedChanged($event)">
+                        <mat-radio-button value="true"> Yes </mat-radio-button>
+                        <mat-radio-button value="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div>
+                    <label for="unitSize"> Unit Size </label>
+                    <input id="unitSize" type="number" formControlName="unitSize" />
+                </div>
+                <div>
+                    <label for="metric"> Metric* </label>
+                    <mat-radio-group formControlName="metric">
+                        <mat-radio-button value="kg"> Kg </mat-radio-button>
+                        <mat-radio-button value="gms"> Gram </mat-radio-button>
+                        <mat-radio-button value="ltr"> Litre </mat-radio-button>
+                        <mat-radio-button value="ml"> Millilitre </mat-radio-button>
+                        <mat-radio-button value="pieces"> Pieces </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <div>
+                    <label for="subscribe"> Can Subscribe? </label>
+                    <mat-radio-group formControlName="subscribe">
+                        <mat-radio-button value="true"> Yes </mat-radio-button>
+                        <mat-radio-button value="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <div>
+                    <label for="active"> Is Active? </label>
+                    <mat-radio-group formControlName="active">
+                        <mat-radio-button value="true"> Yes </mat-radio-button>
+                        <mat-radio-button value="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                </div> -->
+                <div fxLayoutAlign="center" style="margin-top:20px">
+                    <button type="submit" mat-raised-button color="primary">Add/Update Product</button>
+                </div>
+                <!-- <div class="button-container">
+                <button class="button" type="submit">Add/Update Product</button>
+            </div> -->
+                <div class="status-container">
+                    <div *ngIf="saveStatus == 1" class="success">Saved Successfully</div>
+                    <div *ngIf="saveStatus == 0" class="error">
+                        Saved Failed. Please check the values.
+                    </div>
+                </div>
+            </mat-card-content>
+        </form>
+    </div>
+    <div class="table-wrapper">
+        <table class="product-table">
+            <tr>
+                <th>Name</th>
+                <th class="isHidden">Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th class="isHidden">Category</th>
+                <th>Vendor Name</th>
+                <!-- <th class="isHidden">Can Subscribe?</th> -->
+                <th class="isHidden">Is Active?</th>
+                <th class="isHidden">&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr *ngFor="let o of products | async">
+                <td>{{ o.name }}</td>
+                <td class="isHidden">{{ o.description }}</td>
+                <td>{{ o.price }}</td>
+                <td>{{ o.quantity }}</td>
+                <td class="isHidden">{{ o.category.name }}</td>
+                <td>{{ o.vendor }}</td>
+                <!-- <td class="isHidden">{{ o.canSubscribe }}</td> -->
+                <td class="isHidden">{{ o.isActive }}</td>
+                <td class="isHidden"><img *ngIf="o.imageUrl" class="image-small-cls" [src]="o.imageUrl"></td>
+                <td>
+                    <div class="buttons">
+                        <button (click)="editProduct(o)"><mat-icon aria-hidden="false" aria-label="Example edit icon">edit</mat-icon></button>
+                        <button (click)="deleteProduct(o)"><mat-icon aria-hidden="false" aria-label="Example delete icon">delete</mat-icon></button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

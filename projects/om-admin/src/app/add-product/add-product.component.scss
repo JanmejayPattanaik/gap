@@ -1,0 +1,111 @@
+form>div {
+    width: 700px;
+    display: flex;
+    // flex-direction: row;
+    margin: 20px;
+    &>label:first-child {
+        width: 200px;
+        text-align: right;
+        margin-right: 50px;
+    }
+}
+
+form>div.button-container {
+    margin-top: 30px;
+    flex-direction: row-reverse;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    button:first-child {
+        margin-right: 10px;
+    }
+    // padding-top: 16px;
+}
+
+input {
+    width: 300px;
+    line-height: 25px;
+}
+
+input[type="radio"] {
+    width: 30px;
+}
+
+select {
+    height: 35px;
+    width: 300px;
+}
+
+mat-radio-button {
+    margin-right: 15px;
+    padding: 15px 0;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+.status-container {
+    display: flex;
+    // flex-direction: row;
+    flex-flow: row-reverse;
+    line-height: 45px;
+}
+
+.product-table {
+    border-spacing: 0px 10px;
+    td {
+        border-bottom: 1px solid black;
+    }
+}
+
+.progress-bar {
+    display: block;
+}
+
+.image-cls {
+    width: 100px;
+    height: 100px;
+}
+
+.image-small-cls {
+    width: 40px;
+    height: 40px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding: 15px 0;
+    // display: none;
+}
+
+table.product-table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .table-wrapper {
+        display: block;
+    }
+    .isHidden {
+        display: none;
+    }
+}

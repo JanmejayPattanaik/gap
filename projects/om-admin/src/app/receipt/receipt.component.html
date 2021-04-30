@@ -1,0 +1,142 @@
+<div class="graph-image graph-7">
+  <img src="./../../assets/receipt-background.png" alt="Graph Description" />
+</div>
+<div class="content">
+  <div class="date">{{ getDate() }}</div>
+  <table class="profile-table">
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2">
+        <h3>{{ order.userDetails.displayName }}</h3>
+      </td>
+      <td colspan="2">
+        <h3>{{ order.userDetails.phoneNumber }}</h3>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2">
+        <h3>{{ order.userDetails.address }}</h3>
+      </td>
+      <td colspan="2">
+        <h3>{{ order.userDetails.locality }}</h3>
+      </td>
+    </tr>
+  </table>
+
+  <table class="receipt-table">
+    <tr class="order-headers">
+      <td>&nbsp;</td>
+      <td class="items">Item(s)</td>
+      <td class="price">Price</td>
+      <td class="quantity">Order Quantity</td>
+      <td colspan="2">Delivery Quantity</td>
+      <td class="total">Total</td>
+    </tr>
+    <tr class="order-sub-headers">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td class="quantity">No.</td>
+      <td class="quantity">In Grams</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr class="order-items" *ngFor="let o of order.cart; index as i">
+      <td>{{ i + 1 }}</td>
+      <td class="align-left">{{ o.name }}</td>
+      <td>₹{{ o.price }}</td>
+      <td>{{ o.quantity }}</td>
+      <td>
+        <input
+          class="delivery-quantity"
+          name="deliveryQuantity"
+          [value]="o.deliveryQuantity"
+          type="number"
+          
+          (input)="o.deliveryQuantity = +$event.target.value"
+        />
+        <!-- [disabled]="isWeighted(o) ? true : null" -->
+      </td>
+
+      <td>
+        <input
+          class="delivery-grammage"
+          name="deliveryGrammage"
+          [value]="o.deliveryGrammage"
+          type="number"
+          [disabled]="!isWeighted(o) ? true : null"
+          (input)="o.deliveryGrammage = +$event.target.value"
+        />
+      </td>
+
+      <td>₹{{ getItemTotal(o).toFixed(2) }}</td>
+    </tr>
+
+    <tr class="order-items">
+      <td>&nbsp;</td>
+      <td class="align-right"><h2>Total</h2></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>
+        <h2>₹{{ getTotal().toFixed(2) }}</h2>
+      </td>
+    </tr>
+    <tr class="order-items">
+      <td>&nbsp;</td>
+      <td class="align-right"><h2>Order Accepted?</h2></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>
+        <h2><input type="checkbox" id="orderAccepted" (change)="orderStatusChanged($event)" [checked]="isOrderAccepted" /></h2>
+      </td>
+    </tr>
+    <tr *ngIf="showNote">
+      <td>&nbsp;</td>
+      <td class="align-right"><h3>Notes</h3></td>
+      <td colspan="4" class="notes">
+        <textarea id="notes" (input)="order.notes = $event.target.value">{{
+          order.notes
+        }}</textarea>
+      </td>
+      <td class="adjustedAmount">
+        ₹<input
+          class="delivery-quantity"
+          type="number"
+          (input)="setAdjustedAmount(+$event.target.value)"
+          [value]="order.adjustedAmount"
+        />
+      </td>
+    </tr>
+    <tr *ngIf="showNote" class="order-items">
+      <td>&nbsp;</td>
+      <td class="align-right"><h2>Revised Total</h2></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>
+        <h2>₹{{ geAdjustedAmount() }}</h2>
+      </td>
+    </tr>
+  </table>
+  <h3 class="payment-info">
+    Please pay via GPay / PayTM (UPI Only) / PhonePe to <u>8106441105</u>
+  </h3>
+  <footer>
+    <div class="spacer"></div>
+    <button id="backBtn" [routerLink]="['/orders']">BACK</button>
+    <button id="noteBtn" (click)="toggleNote()">Add CR. / DR.</button>
+    <button id="saveBtn" (click)="saveOrder()">SAVE</button>
+    <button id="printBtn" (click)="printOrder()">SAVE & PRINT</button>
+  </footer>
+  <div class="status-container">
+    <div *ngIf="saveStatus == 1" class="success">Saved Successfully</div>
+    <div *ngIf="saveStatus == 0" class="error">Saved Failed</div>
+  </div>
+</div>

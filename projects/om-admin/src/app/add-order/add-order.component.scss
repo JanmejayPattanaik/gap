@@ -1,0 +1,72 @@
+form>div {
+    width: 600px;
+    display: flex;
+    // flex-direction: row;
+    margin: 20px;
+    &>label:first-child {
+        width: 200px;
+        text-align: right;
+        margin-right: 50px;
+    }
+}
+
+// form > div.button-container {
+//   margin-top: 30px;
+//   flex-direction: row-reverse;
+// }
+.buttons {
+    display: flex;
+    flex-direction: row;
+    button:first-child {
+        margin-right: 10px;
+    }
+}
+
+.product-table {
+    th,
+    td {
+        padding: 10px;
+    }
+    tr>th:first-child,
+    tr>td:first-child {
+        text-align: right;
+    }
+    .quantityInput {
+        width: 100px;
+    }
+}
+
+input {
+    width: 300px;
+    line-height: 25px;
+}
+
+select {
+    height: 35px;
+    width: 300px;
+}
+
+.total {
+    width: 200px;
+    text-align: right;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+.status-container {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row-reverse;
+    line-height: 45px;
+    padding: 10px 0;
+}
+
+.data-picker {
+    width: 300px;
+}

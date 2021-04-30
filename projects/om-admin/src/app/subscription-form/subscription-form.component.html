@@ -1,0 +1,128 @@
+<div class="container">
+    <h2>Add Order</h2>
+    <form [formGroup]="orderForm" (ngSubmit)="submitForm()">
+        <div>
+            <label for="name"> Name </label>
+            <!-- <input id="name" type="text" formControlName="name" /> -->
+            <div id="name" class="form-field"> {{order.userDetails.displayName}}</div>
+        </div>
+        <div>
+            <label for="email"> email </label>
+            <!-- <input id="email" type="email" formControlName="email" /> -->
+            <div id="email" class="form-field"> {{order.userDetails.email}}</div>
+        </div>
+
+        <div>
+            <label for="phone"> Phone Number </label>
+            <!-- <input id="phone" type="tel" formControlName="phone" /> -->
+            <div id="phone" class="form-field"> {{order.userDetails.phoneNumber}}</div>
+        </div>
+
+        <div>
+            <label for="address"> address </label>
+            <!-- <input id="address" type="text" formControlName="address" /> -->
+            <div id="address" class="form-field"> {{order.userDetails.address}}</div>
+        </div>
+
+        <div>
+            <label for="zone"> Delivery Zone </label>
+            <!-- <select id="zone" formControlName="zone" value="">
+          <option value="BHEL-Lingampally">BHEL / Lingampally</option>
+          <option value="Gachibowli">Gachibowli</option>
+          <option value="Jubilee-Banjara-Hills">Jubilee / Banjara Hills</option>
+          <option value="Kondapur">Kondapur</option>
+          <option value="Kukatpally-Nizampet">Kukatpally / Nizampet</option>
+          <option value="Madhapur">Madhapur</option>
+          <option value="Miyapur">Miyapur</option>
+          <option value="Nallagandla">Nallagandla</option>
+          <option value="Shaikpet">Shaikpet</option>
+        </select> -->
+            <div id="zone" class="form-field"> {{order.userDetails.zone}}</div>
+        </div>
+
+        <div>
+            <label for="locality"> Locality </label>
+            <!-- <select id="locality" formControlName="locality" value="">
+          <option *ngFor="let locality of localities" [value]="locality">
+            {{ locality }}
+          </option>
+        </select> -->
+            <div id="locality" class="form-field"> {{order.userDetails.locality}}</div>
+        </div>
+
+        <div>
+            <label for="productName"> Product Name </label>
+            <div id="productName" class="form-field"> {{order.productName}}</div>
+        </div>
+
+        <div>
+            <label for="dateOfDelivery"> Date of Delivery </label>
+
+            <!-- <mat-form-field class="data-picker" appearance="fill">
+          <mat-label>Select a Date</mat-label>
+          <input matInput [matDatepicker]="picker" [value]="order.deliveryDate" formControlName="dateOfDelivery">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field> -->
+
+            <div id="dateOfDelivery">
+                <table>
+                    <tr *ngFor="let day of order.days | keyvalue">
+                        <td class="days">{{day.key}}:</td>
+                        <td>{{day.value}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <label for="employee"> Delivery Boy </label>
+            <select id="employee" formControlName="employee" value="">
+                <option *ngFor="let employee of employees | async" [value]="employee.name">
+                    {{ employee.name }}
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="remarks">Remarks</label>
+            <textarea id="remarks" formControlName="remarks"></textarea>
+        </div>
+
+        <!-- <table class="product-table">
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+  
+        <tr *ngFor="let o of productArray">
+          <td>{{ o.name }}</td>
+          <td>{{ o.price }}</td>
+          <td>
+            <input class="quantityInput" type="number" [value]="o.quantity" (input)="o.quantity = +$event.target.value" />
+          </td>
+        </tr>
+      </table> -->
+
+        <!-- <div>
+        <label for="total">
+          <h3>Total</h3>
+        </label>
+        <h3 class="total">₹ {{ getTotal().toFixed(2) }}</h3>
+      </div> -->
+
+        <footer>
+            <div class="spacer"></div>
+            <button class="button" type="submit">{{ buttonTitle }}</button>
+        </footer>
+        <div class="status-container">
+            <div *ngIf="saveStatus == 1" class="success">Saved Successfully</div>
+            <div *ngIf="saveStatus == 0" class="error">
+                Saved Failed. Please check the values.
+            </div>
+        </div>
+    </form>
+</div>

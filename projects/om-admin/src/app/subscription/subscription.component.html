@@ -1,0 +1,173 @@
+<div class="container">
+    <div class="toolbar">
+      <h2 class="title" *ngIf="!showClosed">Subscriptions: Open</h2>
+      <h2 class="title" *ngIf="showClosed">Subscriptions: Closed</h2>
+      <mat-form-field class="locality-select" appearance="fill">
+        <mat-label>Locality</mat-label>
+        <mat-select
+          [formControl]="locality"
+          multiple
+          (selectionChange)="onLocalityChange($event.value)"
+        >
+          <mat-option disabled="disabled" class="filter-option">
+            <button
+              mat-raised-button
+              class="mat-secondary fill text-sm"
+              (click)="selectAll()"
+            >
+              Select All
+            </button>
+            <button
+              mat-raised-button
+              class="mat-tertiary fill text-sm"
+              (click)="deselectAll()"
+            >
+              Deselect All
+            </button>
+          </mat-option>
+          <mat-option *ngFor="let locality of localities" [value]="locality">{{
+            locality
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- <mat-form-field class="delivery-date-select" appearance="fill">
+        <mat-label>Delivery Date</mat-label>
+        <mat-select
+          [formControl]="deliveryDate"
+          multiple
+          (selectionChange)="ondeliveryDateChange($event.value)"
+          [(ngModel)]="ps.selectedDates"
+        >
+          <mat-option disabled="disabled" class="filter-option">
+            <button
+              mat-raised-button
+              class="mat-secondary fill text-sm"
+              (click)="selectAllDates()"
+            >
+              Select All
+            </button>
+            <button
+              mat-raised-button
+              class="mat-tertiary fill text-sm"
+              (click)="deselectAllDates()"
+            >
+              Deselect All
+            </button>
+          </mat-option>
+          <mat-option *ngFor="let deliveryDate of deliveryDates" [value]="deliveryDate.value">{{
+            deliveryDate?.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <div>
+        <!-- <label for="dateOfDelivery"> Date of Delivery </label> -->
+  
+        <mat-form-field class="data-picker" appearance="fill">
+          <mat-label>Date of Delivery</mat-label>
+          <!-- [value]="order.deliveryDate"  -->
+          <input matInput [matDatepicker]="picker" (dateChange)="ondeliveryDateChange('change', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error> -->
+          <!-- <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+        </mat-form-field>
+      </div>
+  
+      <!-- <div *ngIf="!showClosed">
+        <button (click)="showClosed = true">Show Closed</button>
+      </div>
+      <div *ngIf="showClosed">
+        <button (click)="showClosed = false">Show Open</button>
+      </div> -->
+      <div>
+        <button id="export" (click)="exportToExcel()">Export</button>
+      </div>
+    </div>
+    <table id="order-table" class="order-table">
+      <tr>
+        <th class="deliveryBoy">Delivery Boy</th>
+        <th class="locality">Locality</th>
+        <th class="date">Date</th>
+        <th class="product-name">Product Name</th>
+        <th>Name</th>
+        <th class="phone">Phone Number</th>
+        <th class="address">Address</th>
+        <!-- <th class="no-print" [ngClass]="{ 'no-export': exportReady }">
+          Revised Total
+        </th> -->
+        <th class="center no-print" [ngClass]="{ 'no-export': exportReady }">
+          Invoice
+        </th>
+        <th
+          class="center no-print"
+          *ngIf="!showClosed"
+          [ngClass]="{ 'no-export': exportReady }"
+        >
+          Edit
+        </th>
+        <th class="center no-print" [ngClass]="{ 'no-export': exportReady }">
+          Delete
+        </th>
+        <!-- <th
+          class="center no-print"
+          *ngIf="showClosed"
+          [ngClass]="{ 'no-export': exportReady }"
+        >
+          Open Order
+        </th>
+        <th
+          class="center no-print"
+          *ngIf="!showClosed"
+          [ngClass]="{ 'no-export': exportReady }"
+        >
+          Close Order
+        </th> -->
+      </tr>
+  
+      <tr *ngFor="let o of orders | async">
+        <td>{{ o.deliveryBoy }}</td>
+        <td>{{ o.userDetails.locality }}</td>
+        <td [innerHTML]="getDate(o.createdAt)"></td>
+        <td>{{ o.productName }}</td>
+        <td>{{ o.userDetails.displayName }}</td>
+        <td>{{ o.userDetails.phoneNumber }}</td>
+        <td>{{ o.userDetails.address }}</td>
+        <!-- <td class="no-print" [ngClass]="{ 'no-export': exportReady }">
+          ₹{{ getRevisedTotal(o) }}
+        </td> -->
+  
+        <td class="center no-print" [ngClass]="{ 'no-export': exportReady }">
+          <a [routerLink]="['/invoice']" [state]="{ order: o }">Invoice</a>
+        </td>
+        <td
+          class="center no-print"
+          *ngIf="!showClosed"
+          [ngClass]="{ 'no-export': exportReady }"
+        >
+          <a [routerLink]="['/subscription-form']" [state]="{ order: o }">Edit</a>
+        </td>
+        <td class="center no-print" [ngClass]="{ 'no-export': exportReady }">
+          <a (click)="deleteOrder(o)">Delete</a>
+        </td>
+  
+        <!-- <td
+          class="center no-print"
+          *ngIf="!showClosed"
+          [ngClass]="{ 'no-export': exportReady }"
+        >
+          <input type="checkbox" (click)="toggleOrder(o)" />
+        </td>
+        <td
+          class="center no-print"
+          *ngIf="showClosed"
+          [ngClass]="{ 'no-export': exportReady }"
+        >
+          <span>!</span>
+          <input type="checkbox" (click)="toggleOrder(o, false)" />
+        </td> -->
+      </tr>
+    </table>
+  </div>
+  
